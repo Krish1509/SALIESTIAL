@@ -1,36 +1,124 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SALIESTIAL 2025 — The Technology Era Starts Here
 
-## Getting Started
+Official annual techfest website of SAL Institute of Technology.
 
-First, run the development server:
+## 🚀 Features
 
+- **Modern Tech Stack**: Next.js 15, Tailwind CSS, Framer Motion
+- **Authentication**: Google OAuth via NextAuth.js
+- **Responsive Design**: Mobile-first, fully responsive
+- **Animations**: Smooth transitions and hover effects
+- **Futuristic Theme**: Space-inspired design with neon accents
+
+## 📦 Installation
+
+1. Install dependencies:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Set up environment variables:
+```bash
+cp .env.example .env.local
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Configure Google OAuth:
+   - Go to [Google Cloud Console](https://console.cloud.google.com/)
+   - Create a new project
+   - Enable Google+ API
+   - Create OAuth 2.0 credentials
+   - Add authorized redirect URI: `http://localhost:3000/api/auth/callback/google`
+   - Update `.env.local` with your credentials
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Generate NextAuth secret:
+```bash
+openssl rand -base64 32
+```
 
-## Learn More
+5. Run the development server:
+```bash
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🎨 Pages
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Landing Page** (`/`) - Hero section with animations
+- **Dashboard** (`/dashboard`) - User dashboard (requires login)
+- **Events** (`/events`) - Browse and filter events
+- **Nightfall** (`/nightfall`) - Cultural events and schedule
+- **About** (`/about`) - About SAL Education and organizing clubs
+- **Contact** (`/contact`) - Contact form and information
 
-## Deploy on Vercel
+## 🛠️ Tech Stack
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Framework**: Next.js 15 (App Router)
+- **Styling**: Tailwind CSS v4
+- **Animations**: Framer Motion
+- **Authentication**: NextAuth.js
+- **UI Components**: Custom components with Radix UI primitives
+- **Icons**: Lucide React
+- **Notifications**: React Hot Toast
+- **Fonts**: Orbitron, Poppins, Space Grotesk
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📁 Project Structure
+
+```
+sallestial/
+├── app/                    # Next.js app router pages
+│   ├── api/               # API routes (NextAuth)
+│   ├── dashboard/         # Dashboard page
+│   ├── events/            # Events page
+│   ├── nightfall/         # Nightfall page
+│   ├── about/             # About page
+│   ├── contact/           # Contact page
+│   ├── layout.tsx         # Root layout
+│   └── page.tsx           # Landing page
+├── components/            # React components
+│   ├── ui/               # Reusable UI components
+│   ├── starfield.tsx     # Animated starfield background
+│   ├── sidebar.tsx       # Navigation sidebar
+│   ├── profile-modal.tsx # User profile modal
+│   └── event-card.tsx    # Event card component
+├── data/                 # Mock data
+│   ├── events.ts         # Event data
+│   ├── artists.ts        # Artist data
+│   └── schedule.ts       # Schedule data
+├── lib/                  # Utility functions
+│   ├── auth.ts           # NextAuth configuration
+│   └── utils.ts          # Utility functions
+└── types/                # TypeScript types
+    └── index.ts          # Type definitions
+```
+
+## 🎯 Events
+
+### Technical Events
+- Hackathon - ₹20,000
+- Robo Soccer - ₹20,000
+- RC Robo Race - ₹20,000
+- Autonomous Maze Solver - ₹18,000
+- Line Follower - ₹16,000
+- Drone Race - ₹20,000
+
+### Gaming Events
+- Valorant - ₹26,600
+- BGMI - ₹23,600
+
+## 🌙 Nightfall Artists
+
+- Suhani Shah (Day 1)
+- Amit Trivedi (Day 2)
+- Aditya Gadhvi (Day 3)
+
+## 🎨 Design System
+
+- **Primary Colors**: Red (#ff0066), Blue (#00d4ff)
+- **Background**: Dark (#0a0a0a)
+- **Fonts**: Orbitron (headings), Poppins (body), Space Grotesk (accent)
+
+## 📝 License
+
+This project is for SALIESTIAL 2025 techfest.
+# SALIESTIAL
