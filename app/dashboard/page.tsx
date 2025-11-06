@@ -17,7 +17,7 @@ import {
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Starfield } from "@/components/starfield";
+import { VideoBackground } from "@/components/video-background";
 
 export default function DashboardPage() {
   const { data: session, status } = useSession();
@@ -32,8 +32,11 @@ export default function DashboardPage() {
 
   if (status === "loading") {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-space">
-        <div className="text-[#00d4ff] text-xl">Loading...</div>
+      <div className="min-h-screen relative overflow-hidden">
+        <VideoBackground />
+        <div className="relative z-10 flex items-center justify-center min-h-screen">
+          <div className="text-[#00d4ff] text-xl font-heading">Loading...</div>
+        </div>
       </div>
     );
   }
@@ -73,20 +76,20 @@ export default function DashboardPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-space relative">
-      <Starfield />
-      <div className="relative z-10 flex">
+    <div className="min-h-screen relative overflow-hidden">
+      <VideoBackground />
+      <div className="relative z-10 flex min-h-screen">
         <Sidebar />
         
-        <main className="flex-1 p-4 md:p-8 lg:ml-0">
+        <main className="flex-1 p-6 md:p-8 lg:p-12 max-w-7xl mx-auto w-full">
           {/* Header */}
-          <div className="flex justify-between items-center mb-8">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10 md:mb-12">
             <div>
-              <h1 className="text-4xl font-bold font-heading gradient-text">
-                Dashboard
+              <h1 className="text-5xl md:text-6xl font-bold font-heading distressed-text text-white mb-3" data-text="DASHBOARD">
+                DASHBOARD
               </h1>
-              <p className="text-gray-400 mt-2">
-                Welcome back, {session.user?.name?.split(" ")[0]}!
+              <p className="text-gray-300 text-lg md:text-xl font-space">
+                Welcome back, <span className="text-[#00d4ff] font-semibold">{session.user?.name?.split(" ")[0]}!</span>
               </p>
             </div>
             <Button
@@ -100,22 +103,22 @@ export default function DashboardPage() {
           </div>
 
           {/* Stats Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10 md:mb-12">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
             >
-              <Card className="border-[#00d4ff]/30">
-                <CardHeader className="flex flex-row items-center justify-between">
-                  <CardTitle className="text-lg">Events</CardTitle>
+              <Card className="border-[#00d4ff]/30 glass backdrop-blur-md">
+                <CardHeader className="flex flex-row items-center justify-between pb-3">
+                  <CardTitle className="text-lg font-heading text-white">Events</CardTitle>
                   <Calendar className="w-5 h-5 text-[#00d4ff]" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-3xl font-bold font-heading text-[#00d4ff]">
+                  <div className="text-4xl font-bold font-heading text-[#00d4ff] glow-text-blue">
                     8
                   </div>
-                  <p className="text-sm text-gray-400 mt-1">Total Events</p>
+                  <p className="text-sm text-gray-300 mt-2">Total Events</p>
                 </CardContent>
               </Card>
             </motion.div>
@@ -125,16 +128,16 @@ export default function DashboardPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
             >
-              <Card className="border-[#ff0066]/30">
-                <CardHeader className="flex flex-row items-center justify-between">
-                  <CardTitle className="text-lg">Prize Pool</CardTitle>
+              <Card className="border-[#ff0066]/30 glass backdrop-blur-md">
+                <CardHeader className="flex flex-row items-center justify-between pb-3">
+                  <CardTitle className="text-lg font-heading text-white">Prize Pool</CardTitle>
                   <Trophy className="w-5 h-5 text-[#ff0066]" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-3xl font-bold font-heading text-[#ff0066]">
+                  <div className="text-4xl font-bold font-heading text-[#ff0066] glow-text-red">
                     ₹1.8L+
                   </div>
-                  <p className="text-sm text-gray-400 mt-1">Total Prizes</p>
+                  <p className="text-sm text-gray-300 mt-2">Total Prizes</p>
                 </CardContent>
               </Card>
             </motion.div>
@@ -144,16 +147,16 @@ export default function DashboardPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
             >
-              <Card className="border-[#00d4ff]/30">
-                <CardHeader className="flex flex-row items-center justify-between">
-                  <CardTitle className="text-lg">Participants</CardTitle>
+              <Card className="border-[#00d4ff]/30 glass backdrop-blur-md">
+                <CardHeader className="flex flex-row items-center justify-between pb-3">
+                  <CardTitle className="text-lg font-heading text-white">Participants</CardTitle>
                   <Users className="w-5 h-5 text-[#00d4ff]" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-3xl font-bold font-heading text-[#00d4ff]">
+                  <div className="text-4xl font-bold font-heading text-[#00d4ff] glow-text-blue">
                     500+
                   </div>
-                  <p className="text-sm text-gray-400 mt-1">Expected</p>
+                  <p className="text-sm text-gray-300 mt-2">Expected</p>
                 </CardContent>
               </Card>
             </motion.div>
@@ -161,10 +164,10 @@ export default function DashboardPage() {
 
           {/* Quick Actions */}
           <div>
-            <h2 className="text-2xl font-bold font-heading mb-6 text-white">
-              Quick Actions
+            <h2 className="text-3xl md:text-4xl font-bold font-heading mb-8 text-white distressed-text" data-text="QUICK ACTIONS">
+              QUICK ACTIONS
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
               {sections.map((section, index) => {
                 const Icon = section.icon;
                 return (
@@ -175,13 +178,13 @@ export default function DashboardPage() {
                     transition={{ delay: 0.1 * index }}
                     whileHover={{ scale: 1.05 }}
                   >
-                    <Card className="h-full hover:border-[#00d4ff]/50 transition-all cursor-pointer group">
-                      <CardHeader>
-                        <div className={`w-12 h-12 rounded-lg bg-gradient-to-br ${section.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
-                          <Icon className="w-6 h-6 text-white" />
+                    <Card className="h-full hover:border-[#00d4ff]/50 transition-all cursor-pointer group glass backdrop-blur-md">
+                      <CardHeader className="pb-4">
+                        <div className={`w-14 h-14 rounded-lg bg-gradient-to-br ${section.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg`}>
+                          <Icon className="w-7 h-7 text-white" />
                         </div>
-                        <CardTitle>{section.title}</CardTitle>
-                        <CardDescription>{section.description}</CardDescription>
+                        <CardTitle className="text-white font-heading text-xl">{section.title}</CardTitle>
+                        <CardDescription className="text-gray-300">{section.description}</CardDescription>
                       </CardHeader>
                       <CardContent>
                         {section.href ? (

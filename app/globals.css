@@ -130,3 +130,43 @@ body {
 .animate-pulse-glow {
   animation: pulse-glow 2s ease-in-out infinite;
 }
+
+/* Distressed text effect for SALIESTIAL style */
+.distressed-text {
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  position: relative;
+  text-shadow: 
+    2px 2px 0px rgba(0, 0, 0, 0.8),
+    -1px -1px 0px rgba(255, 255, 255, 0.1),
+    0 0 20px rgba(0, 212, 255, 0.5),
+    0 0 40px rgba(0, 212, 255, 0.3);
+  filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.6));
+}
+
+.distressed-text::before {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #ff0066 0%, #00d4ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  opacity: 0.9;
+  z-index: -1;
+  transform: translate(1px, 1px);
+}
+
+/* Distressed logo text effect */
+.distressed-text-logo {
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  position: relative;
+  font-weight: 900;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1);
+}

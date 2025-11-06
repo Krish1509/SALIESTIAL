@@ -18,6 +18,6 @@ export const authOptions = {
       return session;
     },
   },
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET || "sallestial-2025-temporary-secret-key-change-in-production",
 };
 

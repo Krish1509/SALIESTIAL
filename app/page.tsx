@@ -4,9 +4,11 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { signIn, useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
-import { Starfield } from "@/components/starfield";
+import { VideoBackground } from "@/components/video-background";
+import { SaliestialLogo } from "@/components/saliestial-logo";
+import { SpaceElements } from "@/components/space-elements";
 import { CountdownTimer } from "@/components/countdown-timer";
-import { Rocket, Sparkles, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export default function Home() {
@@ -18,58 +20,23 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-gradient-space">
-      <Starfield />
+    <div className="relative min-h-screen overflow-hidden">
+      <VideoBackground />
+      <SpaceElements />
       
       <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 py-20">
-        {/* Logo Animation */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, type: "spring" }}
-          className="mb-8"
-        >
-          <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold font-heading text-center">
-            <span className="gradient-text glow-text-blue">SALIESTIAL</span>
-          </h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="text-xl md:text-2xl text-center mt-4 text-gray-300 font-space"
-          >
-            The Technology Era Starts Here
-          </motion.p>
+        {/* Logo with Space Shuttle */}
+        <div className="mb-8 md:mb-12">
+          <SaliestialLogo />
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-            className="text-sm text-center mt-2 text-gray-500"
+            transition={{ delay: 1 }}
+            className="text-sm md:text-base text-center mt-4 md:mt-6 text-gray-300 font-space"
           >
             Organized by SAL Education • 3 Days of Innovation
           </motion.p>
-        </motion.div>
-
-        {/* Animated Icons */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
-          className="flex gap-8 mb-12"
-        >
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          >
-            <Rocket className="w-12 h-12 text-[#00d4ff] animate-pulse-glow" />
-          </motion.div>
-          <motion.div
-            animate={{ scale: [1, 1.2, 1] }}
-            transition={{ duration: 2, repeat: Infinity }}
-          >
-            <Sparkles className="w-12 h-12 text-[#ff0066] glow-red" />
-          </motion.div>
-        </motion.div>
+        </div>
 
         {/* Countdown Timer */}
         <motion.div
