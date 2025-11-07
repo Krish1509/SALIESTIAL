@@ -41,28 +41,54 @@ export function ProfileModal({ isOpen, onClose, onProfileUpdate }: ProfileModalP
 
   const fetchProfile = async () => {
     try {
-      const response = await fetch("/api/profile");
+      // Add timeout to fetch request
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+      
+      const response = await fetch("/api/profile", {
+        signal: controller.signal,
+      });
+      
+      clearTimeout(timeoutId);
       const data = await response.json();
       
       if (response.ok && data.profile) {
         setProfile(data.profile);
         setFormData(data.profile);
+      } else if (data.error) {
+        console.error("Error fetching profile:", data.error);
+        toast.error(data.error);
       }
     } catch (error) {
       console.error("Error fetching profile:", error);
+      if (error instanceof Error) {
+        if (error.name === 'AbortError') {
+          toast.error("Request timeout. Please check your connection and try again.");
+        } else {
+          toast.error(error.message || "Failed to load profile");
+        }
+      } else {
+        toast.error("Failed to load profile");
+      }
     }
   };
 
   const handleSave = async () => {
     try {
+      // Add timeout to fetch request
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout
+      
       const response = await fetch("/api/profile", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
+        signal: controller.signal,
       });
 
+      clearTimeout(timeoutId);
       const data = await response.json();
 
       if (response.ok) {
@@ -78,7 +104,15 @@ export function ProfileModal({ isOpen, onClose, onProfileUpdate }: ProfileModalP
       }
     } catch (error) {
       console.error("Error saving profile:", error);
-      toast.error("Failed to save profile");
+      if (error instanceof Error) {
+        if (error.name === 'AbortError') {
+          toast.error("Request timeout. Please check your connection and try again.");
+        } else {
+          toast.error(error.message || "Failed to save profile");
+        }
+      } else {
+        toast.error("Failed to save profile");
+      }
     }
   };
 

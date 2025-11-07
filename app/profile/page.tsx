@@ -49,18 +49,34 @@ export default function ProfilePage() {
   const fetchProfile = async () => {
     try {
       setLoading(true);
-      const response = await fetch("/api/profile");
+      // Add timeout to fetch request
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+      
+      const response = await fetch("/api/profile", {
+        signal: controller.signal,
+      });
+      
+      clearTimeout(timeoutId);
       const data = await response.json();
       
       if (response.ok) {
         setProfile(data.profile || null);
         setFormData(data.profile || {});
       } else {
-        toast.error("Failed to load profile");
+        toast.error(data.error || "Failed to load profile");
       }
     } catch (error) {
       console.error("Error fetching profile:", error);
-      toast.error("Failed to load profile");
+      if (error instanceof Error) {
+        if (error.name === 'AbortError') {
+          toast.error("Request timeout. Please check your connection and try again.");
+        } else {
+          toast.error(error.message || "Failed to load profile");
+        }
+      } else {
+        toast.error("Failed to load profile");
+      }
     } finally {
       setLoading(false);
     }
@@ -68,14 +84,20 @@ export default function ProfilePage() {
 
   const handleSave = async () => {
     try {
+      // Add timeout to fetch request
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout
+      
       const response = await fetch("/api/profile", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
+        signal: controller.signal,
       });
 
+      clearTimeout(timeoutId);
       const data = await response.json();
 
       if (response.ok) {
@@ -88,7 +110,15 @@ export default function ProfilePage() {
       }
     } catch (error) {
       console.error("Error saving profile:", error);
-      toast.error("Failed to save profile");
+      if (error instanceof Error) {
+        if (error.name === 'AbortError') {
+          toast.error("Request timeout. Please check your connection and try again.");
+        } else {
+          toast.error(error.message || "Failed to save profile");
+        }
+      } else {
+        toast.error("Failed to save profile");
+      }
     }
   };
 

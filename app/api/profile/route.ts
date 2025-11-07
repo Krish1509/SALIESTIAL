@@ -14,10 +14,22 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const db = await getDatabase();
+    // Add timeout for database operations
+    const db = await Promise.race([
+      getDatabase(),
+      new Promise<never>((_, reject) => 
+        setTimeout(() => reject(new Error('Database connection timeout')), 8000)
+      )
+    ]);
+
     const profiles = db.collection('profiles');
     
-    const profile = await profiles.findOne({ email: session.user.email });
+    const profile = await Promise.race([
+      profiles.findOne({ email: session.user.email }),
+      new Promise<never>((_, reject) => 
+        setTimeout(() => reject(new Error('Database query timeout')), 5000)
+      )
+    ]);
     
     if (!profile) {
       return NextResponse.json({ profile: null });
@@ -28,8 +40,9 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ profile: profileData });
   } catch (error) {
     console.error('Error fetching profile:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Failed to fetch profile';
     return NextResponse.json(
-      { error: 'Failed to fetch profile' },
+      { error: errorMessage },
       { status: 500 }
     );
   }
@@ -50,7 +63,14 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { phone, college, year, department, city, state, bio } = body;
 
-    const db = await getDatabase();
+    // Add timeout for database operations
+    const db = await Promise.race([
+      getDatabase(),
+      new Promise<never>((_, reject) => 
+        setTimeout(() => reject(new Error('Database connection timeout')), 8000)
+      )
+    ]);
+
     const profiles = db.collection('profiles');
 
     const updateData: any = {
@@ -68,19 +88,36 @@ export async function POST(request: NextRequest) {
     };
 
     // Upsert profile (create if doesn't exist, update if exists)
-    const result = await profiles.updateOne(
-      { email: session.user.email },
-      { 
-        $set: updateData,
-        $setOnInsert: { createdAt: new Date() }
-      },
-      { upsert: true }
-    );
+    const result = await Promise.race([
+      profiles.updateOne(
+        { email: session.user.email },
+        { 
+          $set: updateData,
+          $setOnInsert: { createdAt: new Date() }
+        },
+        { upsert: true }
+      ),
+      new Promise<never>((_, reject) => 
+        setTimeout(() => reject(new Error('Database update timeout')), 5000)
+      )
+    ]);
 
     // Fetch the updated/created profile
-    const savedProfile = await profiles.findOne({ email: session.user.email });
-    const { _id, ...profileData } = savedProfile!;
+    const savedProfile = await Promise.race([
+      profiles.findOne({ email: session.user.email }),
+      new Promise<never>((_, reject) => 
+        setTimeout(() => reject(new Error('Database query timeout')), 5000)
+      )
+    ]);
 
+    if (!savedProfile) {
+      return NextResponse.json(
+        { error: 'Failed to retrieve saved profile' },
+        { status: 500 }
+      );
+    }
+
+    const { _id, ...profileData } = savedProfile;
     return NextResponse.json({ 
       success: true, 
       message: 'Profile saved successfully',
@@ -88,8 +125,9 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error('Error saving profile:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Failed to save profile';
     return NextResponse.json(
-      { error: 'Failed to save profile' },
+      { error: errorMessage },
       { status: 500 }
     );
   }
@@ -110,7 +148,14 @@ export async function PUT(request: NextRequest) {
     const body = await request.json();
     const { phone, college, year, department, city, state, bio } = body;
 
-    const db = await getDatabase();
+    // Add timeout for database operations
+    const db = await Promise.race([
+      getDatabase(),
+      new Promise<never>((_, reject) => 
+        setTimeout(() => reject(new Error('Database connection timeout')), 8000)
+      )
+    ]);
+
     const profiles = db.collection('profiles');
 
     const updateData: any = {
@@ -125,10 +170,15 @@ export async function PUT(request: NextRequest) {
     if (state !== undefined) updateData.state = state;
     if (bio !== undefined) updateData.bio = bio;
 
-    const result = await profiles.updateOne(
-      { email: session.user.email },
-      { $set: updateData }
-    );
+    const result = await Promise.race([
+      profiles.updateOne(
+        { email: session.user.email },
+        { $set: updateData }
+      ),
+      new Promise<never>((_, reject) => 
+        setTimeout(() => reject(new Error('Database update timeout')), 5000)
+      )
+    ]);
 
     if (result.matchedCount === 0) {
       return NextResponse.json(
@@ -137,9 +187,21 @@ export async function PUT(request: NextRequest) {
       );
     }
 
-    const updatedProfile = await profiles.findOne({ email: session.user.email });
-    const { _id, ...profileData } = updatedProfile!;
+    const updatedProfile = await Promise.race([
+      profiles.findOne({ email: session.user.email }),
+      new Promise<never>((_, reject) => 
+        setTimeout(() => reject(new Error('Database query timeout')), 5000)
+      )
+    ]);
 
+    if (!updatedProfile) {
+      return NextResponse.json(
+        { error: 'Failed to retrieve updated profile' },
+        { status: 500 }
+      );
+    }
+
+    const { _id, ...profileData } = updatedProfile;
     return NextResponse.json({ 
       success: true, 
       message: 'Profile updated successfully',
@@ -147,8 +209,9 @@ export async function PUT(request: NextRequest) {
     });
   } catch (error) {
     console.error('Error updating profile:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Failed to update profile';
     return NextResponse.json(
-      { error: 'Failed to update profile' },
+      { error: errorMessage },
       { status: 500 }
     );
   }
@@ -166,10 +229,22 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
-    const db = await getDatabase();
+    // Add timeout for database operations
+    const db = await Promise.race([
+      getDatabase(),
+      new Promise<never>((_, reject) => 
+        setTimeout(() => reject(new Error('Database connection timeout')), 8000)
+      )
+    ]);
+
     const profiles = db.collection('profiles');
 
-    const result = await profiles.deleteOne({ email: session.user.email });
+    const result = await Promise.race([
+      profiles.deleteOne({ email: session.user.email }),
+      new Promise<never>((_, reject) => 
+        setTimeout(() => reject(new Error('Database delete timeout')), 5000)
+      )
+    ]);
 
     if (result.deletedCount === 0) {
       return NextResponse.json(
@@ -184,8 +259,9 @@ export async function DELETE(request: NextRequest) {
     });
   } catch (error) {
     console.error('Error deleting profile:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Failed to delete profile';
     return NextResponse.json(
-      { error: 'Failed to delete profile' },
+      { error: errorMessage },
       { status: 500 }
     );
   }
