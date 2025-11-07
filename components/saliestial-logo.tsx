@@ -12,86 +12,123 @@ export function SaliestialLogo() {
     >
       {/* Subtitle */}
       <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.2 }}
-        className="text-xs sm:text-sm md:text-base text-white/80 font-space uppercase tracking-[0.2em] sm:tracking-[0.3em] mb-3 sm:mb-4"
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ 
+          opacity: 1, 
+          y: 0,
+          textShadow: [
+            "0 0 10px rgba(0, 212, 255, 0.5)",
+            "0 0 20px rgba(255, 0, 102, 0.5)",
+            "0 0 10px rgba(0, 212, 255, 0.5)"
+          ]
+        }}
+        transition={{ 
+          delay: 0.2, 
+          duration: 0.6,
+          textShadow: { duration: 3, repeat: Infinity, ease: "easeInOut" }
+        }}
+        className="text-xs sm:text-sm md:text-base text-[#00d4ff] font-heading uppercase tracking-[0.3em] sm:tracking-[0.4em] mb-4 sm:mb-5 md:mb-6"
       >
         SAL EDUCATION PRESENTS
       </motion.p>
 
-      {/* Main Title - SALIESTIAL with 3D Effect */}
+      {/* Main Title - SALIESTIAL with Cool Animation */}
       <motion.h1
         initial={{ opacity: 0, scale: 0.8, rotateX: -90 }}
         animate={{ 
           opacity: 1, 
           scale: 1,
           rotateX: 0,
-          rotateY: [0, 5, -5, 0]
         }}
         transition={{ 
           delay: 0.4, 
-          type: "spring", 
-          stiffness: 100,
-          rotateY: { duration: 4, repeat: Infinity, ease: "easeInOut" }
+          duration: 1,
+          ease: "easeOut"
         }}
-        className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-heading mb-3 md:mb-4"
+        className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold font-heading mb-3 sm:mb-4 md:mb-6"
         style={{
-          background: "linear-gradient(135deg, #00d4ff 0%, #ff0066 50%, #00d4ff 100%)",
+          background: "linear-gradient(135deg, #00d4ff 0%, #ffffff 25%, #ff0066 50%, #ffffff 75%, #00d4ff 100%)",
           backgroundSize: "200% 200%",
           WebkitBackgroundClip: "text",
           WebkitTextFillColor: "transparent",
           backgroundClip: "text",
-          textShadow: "0 0 30px rgba(0, 212, 255, 0.5), 0 0 60px rgba(0, 212, 255, 0.3), 0 10px 20px rgba(0, 0, 0, 0.5)",
-          letterSpacing: "0.05em",
+          textShadow: "0 0 30px rgba(0, 212, 255, 0.8), 0 0 60px rgba(255, 0, 102, 0.6)",
+          letterSpacing: "0.08em",
+          lineHeight: "1.2",
           animation: "gradient-shift 3s ease infinite",
-          transformStyle: "preserve-3d",
-          perspective: "1000px",
         }}
       >
         SALIESTIAL
       </motion.h1>
 
-      {/* Tagline */}
+      {/* Date - January 2026 */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.6 }}
-        className="flex flex-col items-center gap-2"
+        animate={{ 
+          opacity: 1, 
+          y: 0,
+          scale: [1, 1.02, 1]
+        }}
+        transition={{ 
+          delay: 0.6, 
+          duration: 0.6,
+          scale: { duration: 2, repeat: Infinity, ease: "easeInOut" }
+        }}
+        className="mb-4 sm:mb-5 md:mb-6"
       >
         <motion.p
-          className="text-base sm:text-lg md:text-xl lg:text-2xl text-white/90 font-space mb-1 tracking-wider"
-          animate={{ 
-            textShadow: [
-              "0 0 10px rgba(0, 212, 255, 0.5)",
-              "0 0 20px rgba(255, 0, 102, 0.5)",
-              "0 0 10px rgba(0, 212, 255, 0.5)"
-            ]
+          className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold font-heading"
+          style={{
+            background: "linear-gradient(135deg, #00d4ff 0%, #ff0066 100%)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            backgroundClip: "text",
+            textShadow: "0 0 20px rgba(0, 212, 255, 0.6)",
           }}
-          transition={{ duration: 2, repeat: Infinity }}
-        >
-          Coming Soon
-        </motion.p>
-        <motion.p
-          className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-[#00d4ff] font-heading"
-          animate={{ 
-            scale: [1, 1.05, 1],
-            opacity: [0.9, 1, 0.9]
-          }}
-          transition={{ duration: 2, repeat: Infinity }}
         >
           January 2026
         </motion.p>
       </motion.div>
+
+      {/* Tagline - INDIA'S PREMIER TECHNOLOGY FESTIVAL */}
+      <motion.p
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ 
+          opacity: 1, 
+          scale: 1,
+          textShadow: [
+            "0 0 15px rgba(0, 212, 255, 0.8)",
+            "0 0 25px rgba(255, 0, 102, 0.8)",
+            "0 0 15px rgba(0, 212, 255, 0.8)"
+          ]
+        }}
+        transition={{ 
+          delay: 0.8, 
+          duration: 0.6,
+          textShadow: { duration: 2.5, repeat: Infinity, ease: "easeInOut" }
+        }}
+        className="text-xs sm:text-sm md:text-base lg:text-lg text-[#00d4ff] font-heading uppercase tracking-[0.2em] mb-2 sm:mb-3"
+      >
+        INDIA'S PREMIER TECHNOLOGY FESTIVAL
+      </motion.p>
+      
+      {/* Subtitle - THE TECHNOLOGY ERA STARTS HERE */}
       <motion.p
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.8 }}
-        className="text-xs sm:text-sm md:text-base text-white/70 font-space uppercase tracking-wider px-2 mt-2"
+        animate={{ 
+          opacity: [0.7, 1, 0.7],
+        }}
+        transition={{ 
+          delay: 1, 
+          duration: 0.6,
+          opacity: { duration: 2, repeat: Infinity, ease: "easeInOut" }
+        }}
+        className="text-xs sm:text-sm md:text-base text-[#00d4ff]/80 font-heading uppercase tracking-[0.2em]"
       >
         THE TECHNOLOGY ERA STARTS HERE
       </motion.p>
     </motion.div>
   );
 }
+
 

@@ -10,9 +10,9 @@ export interface ButtonProps
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant = "default", size = "default", ...props }, ref) => {
-    const baseStyles =
-      "inline-flex items-center justify-center rounded-lg font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50";
+  ({ className, variant = "default", size, ...props }, ref) => {
+          const baseStyles =
+            "inline-flex items-center justify-center rounded-lg font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 cursor-pointer";
 
     const variants = {
       default:
@@ -25,19 +25,26 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     // Check if custom padding is provided in className
     const hasCustomPadding = className?.match(/\b(px-|py-|p-|pl-|pr-|pt-|pb-)/);
-
-    const sizes = {
-      default: hasCustomPadding ? "h-11" : "h-11 px-6 py-2.5",
-      sm: hasCustomPadding ? "h-9 text-sm" : "h-9 px-5 py-2 text-sm",
-      lg: hasCustomPadding ? "h-14 text-lg" : "h-14 px-10 py-4 text-lg",
-    };
+    
+    // Only apply default padding if no custom padding and size is provided
+    // Size only controls height and text size, NOT padding
+    // If custom padding exists, don't apply any default padding
+    const sizeStyles = size && !hasCustomPadding ? {
+      default: "h-11 px-8 py-3",
+      sm: "h-9 px-6 py-2.5 text-sm",
+      lg: "h-14 px-12 py-4 text-lg",
+    }[size] : size && hasCustomPadding ? {
+      default: "h-11",
+      sm: "h-9 text-sm",
+      lg: "h-14 text-lg",
+    }[size] : "";
 
     return (
       <button
         className={cn(
           baseStyles,
           variants[variant],
-          sizes[size],
+          sizeStyles,
           className
         )}
         ref={ref}

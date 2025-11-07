@@ -115,7 +115,7 @@ export default function ContactPage() {
                         placeholder="Your message..."
                       />
                     </div>
-                    <Button type="submit" className="w-full px-6 py-3">
+                    <Button type="submit" className="w-full !px-10 !py-4">
                       <Send className="w-4 h-4 mr-2" />
                       Send Message
                     </Button>
@@ -185,7 +185,7 @@ export default function ContactPage() {
                     Interested in volunteering or partnering with SALIESTIAL 2025?
                     We're always looking for passionate individuals to join our team.
                   </p>
-                  <Button variant="outline" className="w-full px-6 py-3">
+                  <Button variant="outline" className="w-full !px-10 !py-4">
                     Become a Volunteer
                   </Button>
                 </CardContent>

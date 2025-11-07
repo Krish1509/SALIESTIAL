@@ -47,7 +47,7 @@ export function EventCard({ event, index }: EventCardProps) {
           </div>
         </CardContent>
         <CardFooter>
-          <Button className="w-full px-6 py-3" variant="outline">
+          <Button className="w-full !px-10 !py-4" variant="outline">
             Register Now
           </Button>
         </CardFooter>

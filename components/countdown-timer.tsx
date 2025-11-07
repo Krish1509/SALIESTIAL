@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Clock } from "lucide-react";
 
 interface TimeLeft {
   days: number;
@@ -50,52 +49,31 @@ export function CountdownTimer() {
   ];
 
   return (
-    <div className="flex flex-col items-center gap-4 sm:gap-5">
-      <div className="flex items-center gap-2 text-[#00d4ff] mb-2">
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-        >
-          <Clock className="w-4 h-4 sm:w-5 sm:h-5" />
-        </motion.div>
-        <span className="text-xs sm:text-sm font-semibold font-space uppercase tracking-wider">Event Starts In</span>
-      </div>
-      <div className="flex gap-2 sm:gap-3 md:gap-4 flex-wrap justify-center">
+    <div className="flex flex-col items-center md:items-end gap-2">
+      <div className="flex gap-1.5 sm:gap-2 md:gap-2.5">
         {timeUnits.map((unit, index) => (
           <motion.div
             key={unit.label}
-            initial={{ opacity: 0, scale: 0.5, rotateY: -90 }}
+            initial={{ opacity: 0, scale: 0.5 }}
             animate={{ 
               opacity: 1, 
-              scale: 1,
-              rotateY: 0
+              scale: 1
             }}
             transition={{ delay: index * 0.1, type: "spring", stiffness: 200 }}
-            whileHover={{ 
-              scale: 1.1,
-              rotateY: 5,
-              z: 50
-            }}
             className="flex flex-col items-center"
-            style={{ transformStyle: "preserve-3d" }}
           >
             <motion.div
-              className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-lg bg-gradient-to-br from-[#ff0066] to-[#00d4ff] flex items-center justify-center glass border border-[#00d4ff]/30 shadow-lg"
-              animate={{
-                boxShadow: [
-                  "0 0 20px rgba(0, 212, 255, 0.3)",
-                  "0 0 30px rgba(255, 0, 102, 0.4)",
-                  "0 0 20px rgba(0, 212, 255, 0.3)"
-                ]
+              className="w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-lg bg-black/60 backdrop-blur-sm border border-white/30 flex items-center justify-center shadow-lg"
+              whileHover={{ 
+                scale: 1.05,
+                borderColor: "rgba(0, 212, 255, 0.6)"
               }}
-              transition={{ duration: 2, repeat: Infinity }}
-              style={{ transformStyle: "preserve-3d" }}
             >
-              <span className="text-xl sm:text-2xl md:text-3xl font-bold font-heading text-white">
+              <span className="text-base sm:text-lg md:text-xl font-bold font-heading text-white">
                 {unit.value.toString().padStart(2, "0")}
               </span>
             </motion.div>
-            <span className="text-[10px] sm:text-xs md:text-sm text-white/70 mt-2 uppercase tracking-wider font-space">
+            <span className="text-[8px] sm:text-[9px] md:text-[10px] text-white/80 mt-1 uppercase tracking-wider font-heading font-semibold">
               {unit.label}
             </span>
           </motion.div>

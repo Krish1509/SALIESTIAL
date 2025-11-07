@@ -18,7 +18,7 @@ export function SocialSidebar() {
       initial={{ opacity: 0, x: 50 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: 0.5 }}
-      className="fixed right-0 top-1/2 -translate-y-1/2 z-40 hidden xl:flex flex-col gap-4 lg:gap-6 p-3 lg:p-4"
+      className="fixed right-0 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col gap-4 lg:gap-6 p-3 lg:p-4"
     >
       {socialLinks.map((social, index) => {
         const Icon = social.icon;

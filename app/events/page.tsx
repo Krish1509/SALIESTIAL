@@ -46,7 +46,7 @@ export default function EventsPage() {
             <Button
               variant={filter === "all" ? "default" : "outline"}
               onClick={() => setFilter("all")}
-              className="flex items-center gap-2 px-5 py-2.5"
+              className="flex items-center gap-2 !px-8 !py-3"
             >
               <Filter className="w-4 h-4" />
               All Events
@@ -54,14 +54,14 @@ export default function EventsPage() {
             <Button
               variant={filter === "technical" ? "default" : "outline"}
               onClick={() => setFilter("technical")}
-              className="px-5 py-2.5"
+              className="!px-8 !py-3"
             >
               Technical
             </Button>
             <Button
               variant={filter === "gaming" ? "default" : "outline"}
               onClick={() => setFilter("gaming")}
-              className="px-5 py-2.5"
+              className="!px-8 !py-3"
             >
               Gaming
             </Button>
