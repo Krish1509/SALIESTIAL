@@ -5,7 +5,7 @@ import Link from "next/link";
 import { VideoBackground } from "@/components/video-background";
 import { TopNav } from "@/components/top-nav";
 import { SocialSidebar } from "@/components/social-sidebar";
-import { Mail, Phone, Code, Sparkles } from "lucide-react";
+import { Mail, Phone, Code, Sparkles, Home, Calendar, Users, Gem } from "lucide-react";
 import Image from "next/image";
 
 export default function ContactPage() {
@@ -23,26 +23,29 @@ export default function ContactPage() {
         className="fixed left-4 md:left-6 lg:left-8 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col gap-3 lg:gap-4"
       >
         {[
-          { label: "HOME", icon: "🏠", href: "/" },
-          { label: "COMPETITIONS", icon: "📅", href: "/events" },
-          { label: "CONTACT", icon: "📞", href: "/contact" },
-          { label: "ABOUT", icon: "👥", href: "/about" },
-          { label: "SPONSORS", icon: "💎", href: "/about" },
-        ].map((item, index) => (
-          <Link key={item.label} href={item.href}>
-            <motion.div
-              initial={{ opacity: 0, scale: 0 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.4 + index * 0.1 }}
-              className="flex flex-col items-center gap-2 text-white/70 hover:text-[#00d4ff] transition-colors cursor-pointer group"
-            >
-              <div className="w-10 h-10 flex items-center justify-center glass rounded-lg border border-[#00d4ff]/20 group-hover:border-[#00d4ff]/50 text-xl">
-                {item.icon}
-              </div>
-              <span className="text-xs font-space uppercase tracking-wider">{item.label}</span>
-            </motion.div>
-          </Link>
-        ))}
+          { label: "HOME", icon: Home, href: "/" },
+          { label: "COMPETITIONS", icon: Calendar, href: "/events" },
+          { label: "CONTACT", icon: Phone, href: "/contact" },
+          { label: "ABOUT", icon: Users, href: "/about" },
+          { label: "SPONSORS", icon: Gem, href: "/about" },
+        ].map((item, index) => {
+          const IconComponent = item.icon;
+          return (
+            <Link key={item.label} href={item.href}>
+              <motion.div
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.4 + index * 0.1 }}
+                className="flex flex-col items-center gap-2 text-white/70 hover:text-[#00d4ff] transition-colors cursor-pointer group"
+              >
+                <div className="w-10 h-10 flex items-center justify-center glass rounded-lg border border-[#00d4ff]/20 group-hover:border-[#00d4ff]/50 group-hover:bg-[#00d4ff]/10 transition-all">
+                  <IconComponent className="w-5 h-5" />
+                </div>
+                <span className="text-xs font-space uppercase tracking-wider">{item.label}</span>
+              </motion.div>
+            </Link>
+          );
+        })}
       </motion.aside>
 
       {/* Bottom Navigation Bar - Mobile Only */}
@@ -54,28 +57,31 @@ export default function ContactPage() {
       >
         <div className="flex items-center justify-around px-2 py-3">
           {[
-            { label: "HOME", icon: "🏠", href: "/" },
-            { label: "COMPETITIONS", icon: "📅", href: "/events" },
-            { label: "CONTACT", icon: "📞", href: "/contact" },
-            { label: "ABOUT", icon: "👥", href: "/about" },
-            { label: "SPONSORS", icon: "💎", href: "/about" },
-          ].map((item, index) => (
-            <Link key={item.label} href={item.href} className="flex-1">
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6 + index * 0.1 }}
-                className="flex flex-col items-center gap-1 text-white/70 hover:text-[#00d4ff] transition-colors cursor-pointer group active:scale-95"
-              >
-                <div className="w-8 h-8 flex items-center justify-center text-lg">
-                  {item.icon}
-                </div>
-                <span className="text-[10px] font-space uppercase tracking-wider font-semibold">
-                  {item.label}
-                </span>
-              </motion.div>
-            </Link>
-          ))}
+            { label: "HOME", icon: Home, href: "/" },
+            { label: "COMPETITIONS", icon: Calendar, href: "/events" },
+            { label: "CONTACT", icon: Phone, href: "/contact" },
+            { label: "ABOUT", icon: Users, href: "/about" },
+            { label: "SPONSORS", icon: Gem, href: "/about" },
+          ].map((item, index) => {
+            const IconComponent = item.icon;
+            return (
+              <Link key={item.label} href={item.href} className="flex-1">
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6 + index * 0.1 }}
+                  className="flex flex-col items-center gap-1 text-white/70 hover:text-[#00d4ff] transition-colors cursor-pointer group active:scale-95"
+                >
+                  <div className="w-8 h-8 flex items-center justify-center">
+                    <IconComponent className="w-5 h-5" />
+                  </div>
+                  <span className="text-[10px] font-space uppercase tracking-wider font-semibold">
+                    {item.label}
+                  </span>
+                </motion.div>
+              </Link>
+            );
+          })}
         </div>
       </motion.nav>
       
