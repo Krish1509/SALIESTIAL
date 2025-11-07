@@ -3,11 +3,18 @@ import { MongoClient, Db } from 'mongodb';
 const uri: string = process.env.MONGODB_URI || '';
 
 // MongoDB connection options optimized for serverless
-const options = {
+// Note: MongoDB Atlas connection strings already include SSL/TLS parameters
+// We don't need to explicitly set TLS options as they're handled by the connection string
+const options: any = {
   maxPoolSize: 10, // Maintain up to 10 socket connections
   serverSelectionTimeoutMS: 5000, // Keep trying to send operations for 5 seconds
   socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
   connectTimeoutMS: 10000, // Give up initial connection after 10 seconds
+  // Retry options (these are usually in the connection string, but set here for safety)
+  retryWrites: true,
+  retryReads: true,
+  // Compression
+  compressors: ['zlib'],
 };
 
 // Use a global variable to store the MongoClient promise
@@ -53,9 +60,35 @@ export async function getDatabase(): Promise<Db> {
       )
     ]);
     
+    // Test the connection with a ping
+    try {
+      await client.db('admin').command({ ping: 1 });
+    } catch (pingError) {
+      console.error('MongoDB ping failed:', pingError);
+      // Continue anyway, as ping might fail but connection might still work
+    }
+    
     return client.db('sallestial');
   } catch (error) {
     console.error('MongoDB connection error:', error);
+    
+    // Provide more helpful error messages
+    if (error instanceof Error) {
+      const errorMsg = error.message.toLowerCase();
+      if (errorMsg.includes('ssl') || errorMsg.includes('tls') || errorMsg.includes('tlsv1')) {
+        throw new Error(`MongoDB SSL/TLS error: Please verify your MONGODB_URI connection string format. It should be: mongodb+srv://username:password@cluster.mongodb.net/sallestial?retryWrites=true&w=majority. Also check MongoDB Atlas network access settings.`);
+      }
+      if (errorMsg.includes('authentication') || errorMsg.includes('auth')) {
+        throw new Error(`MongoDB authentication error: Please check your username and password in MONGODB_URI`);
+      }
+      if (errorMsg.includes('timeout')) {
+        throw new Error(`MongoDB connection timeout: Please check your network connection and MongoDB Atlas network access settings (allow 0.0.0.0/0 for all IPs)`);
+      }
+      if (errorMsg.includes('dns') || errorMsg.includes('enotfound')) {
+        throw new Error(`MongoDB DNS error: Please check your cluster hostname in MONGODB_URI`);
+      }
+    }
+    
     throw new Error(`Failed to connect to MongoDB: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
 }
