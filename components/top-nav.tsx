@@ -43,13 +43,13 @@ export function TopNav({ onProfileClick }: TopNavProps) {
             href="/events"
             className="text-white hover:text-[#00d4ff] transition-colors font-heading uppercase text-sm md:text-base lg:text-lg tracking-[0.15em] px-3 py-2 font-bold letter-spacing-wide"
           >
-            EVENTS
+            COMPETITIONS
           </Link>
           <Link
             href="/nightfall"
             className="text-white hover:text-[#00d4ff] transition-colors font-heading uppercase text-sm md:text-base lg:text-lg tracking-[0.15em] px-3 py-2 font-bold letter-spacing-wide"
           >
-            NIGHTFALL
+            FEST
           </Link>
           <Link
             href="/about"
@@ -111,14 +111,14 @@ export function TopNav({ onProfileClick }: TopNavProps) {
                 onClick={() => setMobileMenuOpen(false)}
                 className="block text-white hover:text-[#00d4ff] transition-colors font-heading uppercase text-sm tracking-[0.15em] py-2 font-bold"
               >
-                EVENTS
+                COMPETITIONS
               </Link>
               <Link
                 href="/nightfall"
                 onClick={() => setMobileMenuOpen(false)}
                 className="block text-white hover:text-[#00d4ff] transition-colors font-heading uppercase text-sm tracking-[0.15em] py-2 font-bold"
               >
-                NIGHTFALL
+                FEST
               </Link>
               <Link
                 href="/about"

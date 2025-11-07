@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { phone, college, year, department, city, state, bio } = body;
+    const { phone, college, educationLevel, year, department, city, state, bio } = body;
 
     // Add timeout for database operations
     const db = await Promise.race([
@@ -79,6 +79,7 @@ export async function POST(request: NextRequest) {
       image: session.user.image || '',
       phone: phone || '',
       college: college || '',
+      educationLevel: educationLevel || '',
       year: year || '',
       department: department || '',
       city: city || '',
@@ -146,7 +147,7 @@ export async function PUT(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { phone, college, year, department, city, state, bio } = body;
+    const { phone, college, educationLevel, year, department, city, state, bio } = body;
 
     // Add timeout for database operations
     const db = await Promise.race([
@@ -164,6 +165,7 @@ export async function PUT(request: NextRequest) {
 
     if (phone !== undefined) updateData.phone = phone;
     if (college !== undefined) updateData.college = college;
+    if (educationLevel !== undefined) updateData.educationLevel = educationLevel;
     if (year !== undefined) updateData.year = year;
     if (department !== undefined) updateData.department = department;
     if (city !== undefined) updateData.city = city;

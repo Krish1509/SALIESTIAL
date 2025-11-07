@@ -23,25 +23,28 @@ export function VideoBackground() {
 
   return (
     <div className="fixed inset-0 -z-10 overflow-hidden">
-      {/* Mobile: Vertical video as-is */}
-      <video
-        ref={mobileVideoRef}
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="absolute inset-0 w-full h-full object-cover md:hidden"
-        style={{ 
-          filter: "brightness(0.7) contrast(1.1) saturate(1.2)",
-          objectPosition: "center",
-          opacity: 0.9
-        }}
-      >
-        <source src="/verticalvideo.mp4" type="video/mp4" />
-      </video>
+      {/* Mobile (< 1150px): Vertical video as-is */}
+      <div className="max-[1149px]:block hidden absolute inset-0 overflow-hidden">
+        <video
+          ref={mobileVideoRef}
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full"
+          style={{ 
+            filter: "brightness(0.7) contrast(1.1) saturate(1.2)",
+            opacity: 0.9,
+            objectFit: "cover",
+            objectPosition: "center center"
+          }}
+        >
+          <source src="/verticalvideo.mp4" type="video/mp4" />
+        </video>
+      </div>
 
-      {/* Desktop: Rotated horizontal video */}
-      <div className="hidden md:block absolute inset-0 overflow-hidden">
+      {/* Desktop (>= 1150px): Rotated horizontal video */}
+      <div className="min-[1150px]:block hidden absolute inset-0 overflow-hidden">
         <video
           ref={desktopVideoRef}
           autoPlay

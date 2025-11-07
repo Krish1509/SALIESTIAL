@@ -32,7 +32,7 @@ export default function Home() {
       >
         {[
           { label: "HOME", icon: "🏠", href: "/" },
-          { label: "EVENTS", icon: "📅", href: "/events" },
+          { label: "COMPETITIONS", icon: "📅", href: "/events" },
           { label: "CONTACT", icon: "📞", href: "/contact" },
           { label: "ABOUT", icon: "👥", href: "/about" },
           { label: "SPONSORS", icon: "💎", href: "/about" },
@@ -63,7 +63,7 @@ export default function Home() {
         <div className="flex items-center justify-around px-2 py-3">
           {[
             { label: "HOME", icon: "🏠", href: "/" },
-            { label: "EVENTS", icon: "📅", href: "/events" },
+            { label: "COMPETITIONS", icon: "📅", href: "/events" },
             { label: "CONTACT", icon: "📞", href: "/contact" },
             { label: "ABOUT", icon: "👥", href: "/about" },
             { label: "SPONSORS", icon: "💎", href: "/about" },

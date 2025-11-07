@@ -18,6 +18,7 @@ interface ProfileModalProps {
 interface UserProfile {
   phone?: string;
   college?: string;
+  educationLevel?: string;
   year?: string;
   department?: string;
   city?: string;
@@ -120,9 +121,35 @@ export function ProfileModal({ isOpen, onClose, onProfileUpdate }: ProfileModalP
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
+  // Calculate if profile is complete based on education level
+  const hasCompleteProfile = () => {
+    // Base required fields
+    if (!profile.phone || !profile.college || !profile.city || !profile.state) {
+      return false;
+    }
+    
+    const educationLevel = profile.educationLevel;
+    if (!educationLevel) return false;
+    
+    // School levels (8th-10th): only need college (already checked above)
+    if (educationLevel === '8th' || educationLevel === '9th' || educationLevel === '10th') {
+      return true;
+    }
+    // 11th-12th: need college + department
+    else if (educationLevel === '11th' || educationLevel === '12th') {
+      return !!(profile.department && profile.department.trim() !== '');
+    }
+    // Higher education (Diploma, Degree, Master's): need college + year + department
+    else if (educationLevel === 'Diploma' || educationLevel === 'Degree' || educationLevel === 'Master\'s') {
+      return !!(profile.year && profile.year.trim() !== '' && profile.department && profile.department.trim() !== '');
+    }
+    
+    return false;
+  };
+
   if (!session?.user) return null;
 
-  const hasCompleteProfile = profile.phone && profile.college && profile.year;
+  const isProfileComplete = hasCompleteProfile();
 
   return (
     <AnimatePresence>
@@ -196,7 +223,7 @@ export function ProfileModal({ isOpen, onClose, onProfileUpdate }: ProfileModalP
                 <Mail className="w-4 h-4" />
                 {session.user.email}
               </p>
-              {!hasCompleteProfile && !isEditing && (
+              {!isProfileComplete && !isEditing && (
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -229,54 +256,121 @@ export function ProfileModal({ isOpen, onClose, onProfileUpdate }: ProfileModalP
                         />
                       </div>
 
-                      <div>
-                        <label className="text-sm text-gray-300 mb-2 block flex items-center gap-2">
-                          <GraduationCap className="w-4 h-4 text-[#00d4ff]" />
-                          College/University
-                        </label>
-                        <input
-                          type="text"
-                          value={formData.college || ""}
-                          onChange={(e) => handleInputChange("college", e.target.value)}
-                          placeholder="Enter your college name"
-                          className="w-full !px-4 !py-2.5 bg-black/40 border border-[#00d4ff]/30 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-[#00d4ff] transition-colors"
-                        />
-                      </div>
-
-                      <div className="grid grid-cols-2 gap-4">
-                        <div>
-                          <label className="text-sm text-gray-300 mb-2 block flex items-center gap-2">
-                            <Calendar className="w-4 h-4 text-[#00d4ff]" />
-                            Year
-                          </label>
-                          <select
-                            value={formData.year || ""}
-                            onChange={(e) => handleInputChange("year", e.target.value)}
-                            className="w-full !px-4 !py-2.5 bg-black/40 border border-[#00d4ff]/30 rounded-lg text-white focus:outline-none focus:border-[#00d4ff] transition-colors"
-                          >
-                            <option value="">Select Year</option>
-                            <option value="1st Year">1st Year</option>
-                            <option value="2nd Year">2nd Year</option>
-                            <option value="3rd Year">3rd Year</option>
-                            <option value="4th Year">4th Year</option>
-                            <option value="Graduate">Graduate</option>
-                          </select>
-                        </div>
-
                         <div>
                           <label className="text-sm text-gray-300 mb-2 block flex items-center gap-2">
                             <Award className="w-4 h-4 text-[#00d4ff]" />
-                            Department
+                            Education Level
+                          </label>
+                          <select
+                            value={formData.educationLevel || ""}
+                            onChange={(e) => {
+                              handleInputChange("educationLevel", e.target.value);
+                              // Clear year when education level changes to school
+                              if (e.target.value === "8th" || e.target.value === "9th" || e.target.value === "10th" || e.target.value === "11th" || e.target.value === "12th") {
+                                handleInputChange("year", "");
+                              }
+                              // Clear department when education level changes to 8th, 9th, or 10th
+                              if (e.target.value === "8th" || e.target.value === "9th" || e.target.value === "10th") {
+                                handleInputChange("department", "");
+                              }
+                            }}
+                            className="w-full !px-4 !py-2.5 bg-black/40 border border-[#00d4ff]/30 rounded-lg text-white focus:outline-none focus:border-[#00d4ff] transition-colors"
+                          >
+                            <option value="">Select Education Level</option>
+                            <optgroup label="School">
+                              <option value="8th">8th Standard</option>
+                              <option value="9th">9th Standard</option>
+                              <option value="10th">10th Standard</option>
+                              <option value="11th">11th Standard</option>
+                              <option value="12th">12th Standard</option>
+                            </optgroup>
+                            <optgroup label="Higher Education">
+                              <option value="Diploma">Diploma</option>
+                              <option value="Degree">Degree</option>
+                              <option value="Master's">Master's</option>
+                            </optgroup>
+                          </select>
+                        </div>
+
+                        {/* Year/Semester - Only show for Diploma, Degree, or Master's */}
+                        {formData.educationLevel && formData.educationLevel !== "8th" && formData.educationLevel !== "9th" && formData.educationLevel !== "10th" && formData.educationLevel !== "11th" && formData.educationLevel !== "12th" && (
+                          <div>
+                            <label className="text-sm text-gray-300 mb-2 block flex items-center gap-2">
+                              <Calendar className="w-4 h-4 text-[#00d4ff]" />
+                              Year/Semester
+                            </label>
+                            <select
+                              value={formData.year || ""}
+                              onChange={(e) => handleInputChange("year", e.target.value)}
+                              className="w-full !px-4 !py-2.5 bg-black/40 border border-[#00d4ff]/30 rounded-lg text-white focus:outline-none focus:border-[#00d4ff] transition-colors"
+                            >
+                              <option value="">Select Year</option>
+                              {formData.educationLevel === "Diploma" && (
+                                <>
+                                  <option value="1st Year">1st Year</option>
+                                  <option value="2nd Year">2nd Year</option>
+                                  <option value="3rd Year">3rd Year</option>
+                                </>
+                              )}
+                              {formData.educationLevel === "Degree" && (
+                                <>
+                                  <option value="1st Year">1st Year</option>
+                                  <option value="2nd Year">2nd Year</option>
+                                  <option value="3rd Year">3rd Year</option>
+                                  <option value="4th Year">4th Year</option>
+                                </>
+                              )}
+                              {formData.educationLevel === "Master's" && (
+                                <>
+                                  <option value="1st Year">1st Year</option>
+                                  <option value="2nd Year">2nd Year</option>
+                                </>
+                              )}
+                            </select>
+                          </div>
+                        )}
+
+                        {/* Department/Stream - Show for 11th, 12th, and higher education only */}
+                        {formData.educationLevel && formData.educationLevel !== "8th" && formData.educationLevel !== "9th" && formData.educationLevel !== "10th" && (
+                          <div>
+                            <label className="text-sm text-gray-300 mb-2 block flex items-center gap-2">
+                              <Award className="w-4 h-4 text-[#00d4ff]" />
+                              Department/Stream
+                            </label>
+                            <input
+                              type="text"
+                              value={formData.department || ""}
+                              onChange={(e) => handleInputChange("department", e.target.value)}
+                              placeholder={
+                                formData.educationLevel === "11th" || formData.educationLevel === "12th"
+                                  ? "e.g., Science, Commerce, Arts"
+                                  : formData.educationLevel === "Diploma"
+                                  ? "e.g., Engineering, IT, Electronics"
+                                  : formData.educationLevel === "Degree"
+                                  ? "e.g., CSE, IT, ECE, Mechanical, Civil"
+                                  : formData.educationLevel === "Master's"
+                                  ? "e.g., M.Tech, MBA, MCA, M.Sc"
+                                  : "e.g., CSE, IT, ECE, Science, Commerce, Arts"
+                              }
+                              className="w-full !px-4 !py-2.5 bg-black/40 border border-[#00d4ff]/30 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-[#00d4ff] transition-colors"
+                            />
+                          </div>
+                        )}
+
+                        {/* School/College/University - Always visible */}
+                        <div>
+                          <label className="text-sm text-gray-300 mb-2 block flex items-center gap-2">
+                            <GraduationCap className="w-4 h-4 text-[#00d4ff]" />
+                            School/College/University
                           </label>
                           <input
                             type="text"
-                            value={formData.department || ""}
-                            onChange={(e) => handleInputChange("department", e.target.value)}
-                            placeholder="e.g., CSE, IT, ECE"
+                            value={formData.college || ""}
+                            onChange={(e) => handleInputChange("college", e.target.value)}
+                            placeholder="Enter your school/college/university name"
                             className="w-full !px-4 !py-2.5 bg-black/40 border border-[#00d4ff]/30 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-[#00d4ff] transition-colors"
                           />
                         </div>
-                      </div>
 
                       <div className="grid grid-cols-2 gap-4">
                         <div>
@@ -366,13 +460,16 @@ export function ProfileModal({ isOpen, onClose, onProfileUpdate }: ProfileModalP
                         </div>
                       )}
 
-                      {(profile.year || profile.department) && (
+                      {(profile.educationLevel || profile.year || profile.department) && (
                         <div className="flex items-center gap-3">
                           <Award className="w-5 h-5 text-[#00d4ff]" />
                           <div>
                             <p className="text-xs text-gray-400">Education</p>
                             <p className="text-white font-medium">
-                              {profile.year} {profile.department && `• ${profile.department}`}
+                              {profile.educationLevel && `${profile.educationLevel}`}
+                              {profile.educationLevel && profile.year && ` • `}
+                              {profile.year && `${profile.year}`}
+                              {profile.department && ` • ${profile.department}`}
                             </p>
                           </div>
                         </div>
@@ -397,7 +494,7 @@ export function ProfileModal({ isOpen, onClose, onProfileUpdate }: ProfileModalP
                         </div>
                       )}
 
-                      {!hasCompleteProfile && (
+                      {!isProfileComplete && (
                         <div className="pt-4 border-t border-[#00d4ff]/20">
                           <Button
                             onClick={() => setIsEditing(true)}
