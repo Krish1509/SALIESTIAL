@@ -3,23 +3,25 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { signIn, useSession } from "next-auth/react";
+import { useState } from "react";
 import { VideoBackground } from "@/components/video-background";
 import { SaliestialLogo } from "@/components/saliestial-logo";
-import { SpaceElements } from "@/components/space-elements";
 import { CountdownTimer } from "@/components/countdown-timer";
 import { TopNav } from "@/components/top-nav";
 import { SocialSidebar } from "@/components/social-sidebar";
+import { ProfileModal } from "@/components/profile-modal";
+import { ProfileCompletion } from "@/components/profile-completion";
 import { ChevronDown } from "lucide-react";
 
 export default function Home() {
   const { data: session } = useSession();
+  const [profileOpen, setProfileOpen] = useState(false);
 
   return (
     <div className="relative min-h-screen overflow-hidden">
       <VideoBackground />
-      <TopNav />
+      <TopNav onProfileClick={() => setProfileOpen(true)} />
       <SocialSidebar />
-      <SpaceElements />
       
       {/* Countdown Timer - Desktop/Tablet: Top Right, Mobile: Bottom */}
       {/* Desktop/Tablet - Top Right */}
@@ -27,7 +29,7 @@ export default function Home() {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4, duration: 0.6 }}
-        className="fixed top-16 right-4 sm:top-20 sm:right-6 md:top-24 md:right-10 lg:right-12 z-40 hidden md:block"
+        className="fixed top-20 right-4 sm:top-24 sm:right-6 md:top-28 md:right-8 lg:right-12 z-40 hidden md:block"
       >
         <div className="flex flex-col items-end gap-1.5">
           <CountdownTimer />
@@ -51,7 +53,7 @@ export default function Home() {
         initial={{ opacity: 0, x: -50 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 0.3 }}
-        className="fixed left-0 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col gap-4 lg:gap-6 p-3 lg:p-4"
+        className="fixed left-4 md:left-6 lg:left-8 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col gap-3 lg:gap-4"
       >
         {[
           { label: "HOME", icon: "🏠", href: "/" },
@@ -111,14 +113,13 @@ export default function Home() {
       </motion.nav>
       
       {/* Main Content - Centered with Negative Top Margin */}
-      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 sm:px-6 md:px-8 py-12 sm:py-16 md:py-20 pt-20 sm:pt-24 md:pt-28 pb-24 md:pb-32">
-        {/* Logo Section - Centered with Negative Top */}
+      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 sm:px-6 md:px-8 lg:px-12 py-12 sm:py-16 md:py-20 pt-20 sm:pt-24 md:pt-28 pb-24 md:pb-32">
+        {/* Logo Section - Centered */}
         <motion.div
           initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}
           className="w-full max-w-6xl mx-auto text-center"
-          style={{ marginTop: '-100px' }}
         >
           <SaliestialLogo />
         </motion.div>
@@ -138,8 +139,16 @@ export default function Home() {
             <span className="text-xs sm:text-sm font-space uppercase tracking-wider">Scroll to know more</span>
             <ChevronDown className="w-5 h-5 sm:w-6 sm:h-6 text-[#00d4ff]" />
           </motion.div>
-        </motion.div>
+          </motion.div>
+        </div>
+
+        <ProfileModal isOpen={profileOpen} onClose={() => setProfileOpen(false)} />
+        {session && (
+          <ProfileCompletion 
+            onComplete={() => setProfileOpen(true)} 
+            onSkip={() => {}} 
+          />
+        )}
       </div>
-    </div>
-  );
-}
+    );
+  }
