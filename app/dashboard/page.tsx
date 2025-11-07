@@ -95,7 +95,7 @@ export default function DashboardPage() {
             <Button
               onClick={() => setProfileOpen(true)}
               variant="outline"
-              className="hidden md:flex items-center gap-2"
+              className="hidden md:flex items-center gap-2 px-6 py-3"
             >
               <User className="w-4 h-4" />
               Profile
@@ -189,14 +189,14 @@ export default function DashboardPage() {
                       <CardContent>
                         {section.href ? (
                           <Link href={section.href}>
-                            <Button variant="outline" className="w-full">
+                            <Button variant="outline" className="w-full px-6 py-3">
                               Explore
                             </Button>
                           </Link>
                         ) : (
                           <Button
                             variant="outline"
-                            className="w-full"
+                            className="w-full px-6 py-3"
                             onClick={section.onClick}
                           >
                             Open

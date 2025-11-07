@@ -74,7 +74,7 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
                 <Button
                   onClick={() => signOut()}
                   variant="outline"
-                  className="w-full"
+                  className="w-full px-6 py-3"
                 >
                   <LogOut className="w-4 h-4 mr-2" />
                   Sign Out

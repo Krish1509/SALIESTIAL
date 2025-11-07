@@ -44,7 +44,7 @@ export function Sidebar() {
           x: isOpen ? 0 : -300,
         }}
         className={cn(
-          "fixed left-0 top-0 h-full w-64 glass backdrop-blur-xl border-r border-[#00d4ff]/30 z-40 lg:translate-x-0 bg-black/40",
+          "fixed left-0 top-0 h-full w-64 glass backdrop-blur-xl border-r border-[#00d4ff]/30 z-40 lg:translate-x-0 bg-black/20",
           "lg:static lg:z-auto"
         )}
       >

@@ -8,7 +8,9 @@ import { VideoBackground } from "@/components/video-background";
 import { SaliestialLogo } from "@/components/saliestial-logo";
 import { SpaceElements } from "@/components/space-elements";
 import { CountdownTimer } from "@/components/countdown-timer";
-import { ArrowRight } from "lucide-react";
+import { TopNav } from "@/components/top-nav";
+import { SocialSidebar } from "@/components/social-sidebar";
+import { ArrowRight, ChevronDown } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export default function Home() {
@@ -22,63 +24,104 @@ export default function Home() {
   return (
     <div className="relative min-h-screen overflow-hidden">
       <VideoBackground />
+      <TopNav />
+      <SocialSidebar />
       <SpaceElements />
       
-      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 py-20">
-        {/* Logo with Space Shuttle */}
-        <div className="mb-8 md:mb-12">
+      {/* Left Sidebar Navigation */}
+      <motion.aside
+        initial={{ opacity: 0, x: -50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.3 }}
+        className="fixed left-0 top-1/2 -translate-y-1/2 z-40 hidden xl:flex flex-col gap-4 lg:gap-6 p-3 lg:p-4"
+      >
+        {[
+          { label: "HOME", icon: "🏠", href: "/" },
+          { label: "EVENTS", icon: "📅", href: "/events" },
+          { label: "CONTACT", icon: "📞", href: "/contact" },
+          { label: "ABOUT", icon: "👥", href: "/about" },
+          { label: "SPONSORS", icon: "💎", href: "/about" },
+        ].map((item, index) => (
+          <Link key={item.label} href={item.href}>
+            <motion.div
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.4 + index * 0.1 }}
+              className="flex flex-col items-center gap-2 text-white/70 hover:text-[#00d4ff] transition-colors cursor-pointer group"
+            >
+              <div className="w-10 h-10 flex items-center justify-center glass rounded-lg border border-[#00d4ff]/20 group-hover:border-[#00d4ff]/50 text-xl">
+                {item.icon}
+              </div>
+              <span className="text-xs font-space uppercase tracking-wider">{item.label}</span>
+            </motion.div>
+          </Link>
+        ))}
+      </motion.aside>
+      
+      {/* Main Content - Better Centered */}
+      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 sm:px-6 md:px-8 py-12 sm:py-16 md:py-20 pt-16 sm:pt-20 md:pt-24">
+        {/* Logo - No Image, Just Text */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="mb-8 sm:mb-10 md:mb-12 w-full max-w-5xl mx-auto text-center"
+        >
           <SaliestialLogo />
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1 }}
-            className="text-sm md:text-base text-center mt-4 md:mt-6 text-gray-300 font-space"
-          >
-            Organized by SAL Education • 3 Days of Innovation
-          </motion.p>
-        </div>
+        </motion.div>
 
         {/* Countdown Timer */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7 }}
-          className="mb-8"
+          transition={{ delay: 0.6 }}
+          className="mb-8 sm:mb-10 md:mb-12 w-full max-w-3xl mx-auto flex justify-center"
         >
           <CountdownTimer />
         </motion.div>
 
         {/* CTA Buttons */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8 }}
-          className="flex flex-col sm:flex-row gap-4 mb-8"
+          className="flex flex-row gap-4 sm:gap-5 md:gap-6 mb-6 sm:mb-8 justify-center items-center w-full max-w-2xl mx-auto px-4"
         >
           {mounted && session ? (
-            <Link href="/dashboard">
-              <Button size="lg" className="group">
+            <Link href="/dashboard" className="flex-1 sm:flex-none">
+              <Button className="group w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-3.5 text-sm sm:text-base shadow-lg">
                 Go to Dashboard
-                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
           ) : (
             <>
-              <Link href="/events">
-                <Button size="lg" variant="default" className="group">
-                  Explore Events
-                  <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </Button>
-              </Link>
-              <Button
-                size="lg"
-                variant="outline"
-                onClick={() => signIn("google")}
-                className="group"
+              <motion.div
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                className="flex-1 sm:flex-none min-w-0"
               >
-                Sign In with Google
-                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </Button>
+                <Link href="/events" className="block w-full">
+                  <Button variant="default" className="group w-full px-6 sm:px-8 py-3 sm:py-3.5 text-sm sm:text-base font-semibold shadow-xl whitespace-nowrap">
+                    Explore Events
+                    <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform flex-shrink-0" />
+                  </Button>
+                </Link>
+              </motion.div>
+              <motion.div
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                className="flex-1 sm:flex-none min-w-0"
+              >
+                <Button
+                  variant="outline"
+                  onClick={() => signIn("google")}
+                  className="group w-full px-6 sm:px-8 py-3 sm:py-3.5 text-sm sm:text-base font-semibold shadow-xl whitespace-nowrap"
+                >
+                  Sign In with Google
+                  <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform flex-shrink-0" />
+                </Button>
+              </motion.div>
             </>
           )}
         </motion.div>
@@ -88,21 +131,15 @@ export default function Home() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.2 }}
-          className="absolute bottom-8"
+          className="absolute bottom-4 sm:bottom-6 md:bottom-8"
         >
           <motion.div
             animate={{ y: [0, 10, 0] }}
             transition={{ duration: 1.5, repeat: Infinity }}
-            className="flex flex-col items-center gap-2 text-gray-400"
+            className="flex flex-col items-center gap-2 text-white/60"
           >
-            <span className="text-sm">Scroll to explore</span>
-            <div className="w-6 h-10 border-2 border-[#00d4ff]/50 rounded-full flex items-start justify-center p-2">
-              <motion.div
-                animate={{ y: [0, 12, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
-                className="w-1.5 h-1.5 bg-[#00d4ff] rounded-full"
-              />
-            </div>
+            <span className="text-xs sm:text-sm font-space uppercase tracking-wider">Scroll to know more</span>
+            <ChevronDown className="w-5 h-5 sm:w-6 sm:h-6 text-[#00d4ff]" />
           </motion.div>
         </motion.div>
       </div>
