@@ -1,8 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
 import { VideoBackground } from "@/components/video-background";
 import { TopNav } from "@/components/top-nav";
+import { SocialSidebar } from "@/components/social-sidebar";
 import { Mail, Phone, Code, Sparkles } from "lucide-react";
 import Image from "next/image";
 
@@ -11,8 +13,73 @@ export default function ContactPage() {
     <div className="relative min-h-screen overflow-hidden">
       <VideoBackground />
       <TopNav onProfileClick={() => {}} />
+      <SocialSidebar />
       
-      <div className="relative z-10 min-h-screen px-4 sm:px-6 md:px-8 lg:px-12 py-12 sm:py-16 md:py-20 pt-20 sm:pt-24 md:pt-28">
+      {/* Left Sidebar Navigation - Tablet/Desktop Only */}
+      <motion.aside
+        initial={{ opacity: 0, x: -50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.3 }}
+        className="fixed left-4 md:left-6 lg:left-8 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col gap-3 lg:gap-4"
+      >
+        {[
+          { label: "HOME", icon: "🏠", href: "/" },
+          { label: "EVENTS", icon: "📅", href: "/events" },
+          { label: "CONTACT", icon: "📞", href: "/contact" },
+          { label: "ABOUT", icon: "👥", href: "/about" },
+          { label: "SPONSORS", icon: "💎", href: "/about" },
+        ].map((item, index) => (
+          <Link key={item.label} href={item.href}>
+            <motion.div
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.4 + index * 0.1 }}
+              className="flex flex-col items-center gap-2 text-white/70 hover:text-[#00d4ff] transition-colors cursor-pointer group"
+            >
+              <div className="w-10 h-10 flex items-center justify-center glass rounded-lg border border-[#00d4ff]/20 group-hover:border-[#00d4ff]/50 text-xl">
+                {item.icon}
+              </div>
+              <span className="text-xs font-space uppercase tracking-wider">{item.label}</span>
+            </motion.div>
+          </Link>
+        ))}
+      </motion.aside>
+
+      {/* Bottom Navigation Bar - Mobile Only */}
+      <motion.nav
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5, duration: 0.6 }}
+        className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-black/80 backdrop-blur-xl border-t border-[#00d4ff]/30"
+      >
+        <div className="flex items-center justify-around px-2 py-3">
+          {[
+            { label: "HOME", icon: "🏠", href: "/" },
+            { label: "EVENTS", icon: "📅", href: "/events" },
+            { label: "CONTACT", icon: "📞", href: "/contact" },
+            { label: "ABOUT", icon: "👥", href: "/about" },
+            { label: "SPONSORS", icon: "💎", href: "/about" },
+          ].map((item, index) => (
+            <Link key={item.label} href={item.href} className="flex-1">
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6 + index * 0.1 }}
+                className="flex flex-col items-center gap-1 text-white/70 hover:text-[#00d4ff] transition-colors cursor-pointer group active:scale-95"
+              >
+                <div className="w-8 h-8 flex items-center justify-center text-lg">
+                  {item.icon}
+                </div>
+                <span className="text-[10px] font-space uppercase tracking-wider font-semibold">
+                  {item.label}
+                </span>
+              </motion.div>
+            </Link>
+          ))}
+        </div>
+      </motion.nav>
+      
+      <div className="relative z-10 min-h-screen px-4 sm:px-6 md:px-8 lg:px-12 py-12 sm:py-16 md:py-20 pt-20 sm:pt-24 md:pt-28 pb-20 sm:pb-24 md:pb-28">
         <div className="max-w-5xl mx-auto">
           {/* Page Title */}
           <motion.div
