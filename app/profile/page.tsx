@@ -130,19 +130,17 @@ export default function ProfilePage() {
   const calculateCompletion = () => {
     if (!profile) return 0;
     
-    // Base required fields for all users
-    const baseFields = ['phone', 'college', 'city', 'state'];
+    // Base required fields for all users (Education Level is always required)
+    const baseFields = ['phone', 'college', 'city', 'state', 'educationLevel'];
     let requiredFields: string[] = [...baseFields];
     
     // Add education level specific fields
     const educationLevel = profile.educationLevel;
     
     if (educationLevel) {
-      requiredFields.push('educationLevel');
-      
-      // School levels (8th-10th): only need college
+      // School levels (8th-10th): only need base fields (already included)
       if (educationLevel === '8th' || educationLevel === '9th' || educationLevel === '10th') {
-        // Only base fields + educationLevel needed
+        // Only base fields needed
       }
       // 11th-12th: need college + department
       else if (educationLevel === '11th' || educationLevel === '12th') {
