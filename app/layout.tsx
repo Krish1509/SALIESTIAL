@@ -38,7 +38,7 @@ export default function RootLayout({
         className={`${orbitron.variable} ${poppins.variable} ${spaceGrotesk.variable} antialiased`}
       >
         <Providers>
-          {children}
+        {children}
           <Toaster
             position="top-right"
             toastOptions={{

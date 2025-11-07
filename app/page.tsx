@@ -6,7 +6,6 @@ import { signIn, useSession } from "next-auth/react";
 import { useState } from "react";
 import { VideoBackground } from "@/components/video-background";
 import { SaliestialLogo } from "@/components/saliestial-logo";
-import { CountdownTimer } from "@/components/countdown-timer";
 import { TopNav } from "@/components/top-nav";
 import { SocialSidebar } from "@/components/social-sidebar";
 import { ProfileModal } from "@/components/profile-modal";
@@ -23,30 +22,6 @@ export default function Home() {
       <TopNav onProfileClick={() => setProfileOpen(true)} />
       <SocialSidebar />
       
-      {/* Countdown Timer - Desktop/Tablet: Top Right, Mobile: Bottom */}
-      {/* Desktop/Tablet - Top Right */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4, duration: 0.6 }}
-        className="fixed top-20 right-4 sm:top-24 sm:right-6 md:top-28 md:right-8 lg:right-12 z-40 hidden md:block"
-      >
-        <div className="flex flex-col items-end gap-1.5">
-          <CountdownTimer />
-        </div>
-      </motion.div>
-
-      {/* Mobile - Countdown Timer Above Bottom Nav */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4, duration: 0.6 }}
-        className="fixed bottom-20 left-0 right-0 z-40 md:hidden px-4"
-      >
-        <div className="flex flex-col items-center gap-1.5">
-          <CountdownTimer />
-        </div>
-      </motion.div>
       
       {/* Left Sidebar Navigation - Tablet/Desktop Only */}
       <motion.aside
@@ -112,8 +87,8 @@ export default function Home() {
         </div>
       </motion.nav>
       
-      {/* Main Content - Centered with Negative Top Margin */}
-      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 sm:px-6 md:px-8 lg:px-12 py-12 sm:py-16 md:py-20 pt-20 sm:pt-24 md:pt-28 pb-24 md:pb-32">
+      {/* Main Content - Centered */}
+      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 sm:px-6 md:px-8 lg:px-12 py-4 sm:py-6 md:py-8 pt-16 sm:pt-20 md:pt-24 pb-16 sm:pb-20 md:pb-24">
         {/* Logo Section - Centered */}
         <motion.div
           initial={{ opacity: 0, y: -30 }}
@@ -128,27 +103,22 @@ export default function Home() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1.2, duration: 0.6 }}
-          className="absolute bottom-6 sm:bottom-8 md:bottom-10"
+          transition={{ delay: 1.4, duration: 0.6 }}
+          className="absolute bottom-20 sm:bottom-6 md:bottom-8"
         >
           <motion.div
-            animate={{ y: [0, 10, 0] }}
+            animate={{ y: [0, 8, 0] }}
             transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-            className="flex flex-col items-center gap-2 text-white/70"
+            className="flex flex-col items-center gap-1 text-white/70"
           >
-            <span className="text-xs sm:text-sm font-space uppercase tracking-wider">Scroll to know more</span>
-            <ChevronDown className="w-5 h-5 sm:w-6 sm:h-6 text-[#00d4ff]" />
+            <span className="text-[10px] sm:text-xs font-space uppercase tracking-wider">Scroll to know more</span>
+            <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5 text-[#00d4ff]" />
           </motion.div>
-          </motion.div>
-        </div>
-
-        <ProfileModal isOpen={profileOpen} onClose={() => setProfileOpen(false)} />
-        {session && (
-          <ProfileCompletion 
-            onComplete={() => setProfileOpen(true)} 
-            onSkip={() => {}} 
-          />
-        )}
+        </motion.div>
       </div>
-    );
-  }
+
+      <ProfileModal isOpen={profileOpen} onClose={() => setProfileOpen(false)} />
+      {session && <ProfileCompletion />}
+    </div>
+  );
+}

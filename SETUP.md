@@ -15,6 +15,7 @@
    NEXTAUTH_SECRET=your-secret-here
    GOOGLE_CLIENT_ID=your-google-client-id
    GOOGLE_CLIENT_SECRET=your-google-client-secret
+   MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/sallestial?retryWrites=true&w=majority
    ```
 
 3. **Generate NextAuth Secret**

@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { CountdownTimer } from "@/components/countdown-timer";
 
 export function SaliestialLogo() {
   return (
@@ -27,7 +28,7 @@ export function SaliestialLogo() {
           duration: 0.6,
           textShadow: { duration: 3, repeat: Infinity, ease: "easeInOut" }
         }}
-        className="text-xs sm:text-sm md:text-base text-[#00d4ff] font-heading uppercase tracking-[0.3em] sm:tracking-[0.4em] mb-4 sm:mb-5 md:mb-6"
+        className="text-[10px] sm:text-xs md:text-sm text-[#00d4ff] font-heading uppercase tracking-[0.2em] sm:tracking-[0.3em] mb-2 sm:mb-3 md:mb-4"
       >
         SAL EDUCATION PRESENTS
       </motion.p>
@@ -45,7 +46,7 @@ export function SaliestialLogo() {
           duration: 1,
           ease: "easeOut"
         }}
-        className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold font-heading mb-3 sm:mb-4 md:mb-6"
+        className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold font-heading mb-2 sm:mb-3 md:mb-4"
         style={{
           background: "linear-gradient(135deg, #00d4ff 0%, #ffffff 25%, #ff0066 50%, #ffffff 75%, #00d4ff 100%)",
           backgroundSize: "200% 200%",
@@ -74,10 +75,10 @@ export function SaliestialLogo() {
           duration: 0.6,
           scale: { duration: 2, repeat: Infinity, ease: "easeInOut" }
         }}
-        className="mb-4 sm:mb-5 md:mb-6"
+        className="mb-2 sm:mb-3 md:mb-4"
       >
         <motion.p
-          className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold font-heading"
+          className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold font-heading"
           style={{
             background: "linear-gradient(135deg, #00d4ff 0%, #ff0066 100%)",
             WebkitBackgroundClip: "text",
@@ -107,7 +108,7 @@ export function SaliestialLogo() {
           duration: 0.6,
           textShadow: { duration: 2.5, repeat: Infinity, ease: "easeInOut" }
         }}
-        className="text-xs sm:text-sm md:text-base lg:text-lg text-[#00d4ff] font-heading uppercase tracking-[0.2em] mb-2 sm:mb-3"
+        className="text-[10px] sm:text-xs md:text-sm lg:text-base text-[#00d4ff] font-heading uppercase tracking-[0.15em] mb-2 sm:mb-3"
       >
         INDIA'S PREMIER TECHNOLOGY FESTIVAL
       </motion.p>
@@ -123,10 +124,22 @@ export function SaliestialLogo() {
           duration: 0.6,
           opacity: { duration: 2, repeat: Infinity, ease: "easeInOut" }
         }}
-        className="text-xs sm:text-sm md:text-base text-[#00d4ff]/80 font-heading uppercase tracking-[0.2em]"
+        className="text-[10px] sm:text-xs md:text-sm text-[#00d4ff]/80 font-heading uppercase tracking-[0.15em] mb-3 sm:mb-4 md:mb-5"
       >
         THE TECHNOLOGY ERA STARTS HERE
       </motion.p>
+
+      {/* Countdown Timer - After THE TECHNOLOGY ERA STARTS HERE */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.2, duration: 0.6 }}
+        className="mt-3 sm:mt-4 md:mt-5"
+      >
+        <div className="flex flex-col items-center gap-1.5">
+          <CountdownTimer />
+        </div>
+      </motion.div>
     </motion.div>
   );
 }

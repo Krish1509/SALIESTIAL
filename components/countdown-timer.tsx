@@ -48,9 +48,9 @@ export function CountdownTimer() {
     { label: "Seconds", value: timeLeft.seconds },
   ];
 
-  return (
-    <div className="flex flex-col items-center md:items-end gap-2">
-      <div className="flex gap-1.5 sm:gap-2 md:gap-2.5">
+    return (
+      <div className="flex flex-col items-center gap-2">
+        <div className="flex gap-1 sm:gap-1.5 md:gap-2">
         {timeUnits.map((unit, index) => (
           <motion.div
             key={unit.label}
@@ -63,17 +63,17 @@ export function CountdownTimer() {
             className="flex flex-col items-center"
           >
             <motion.div
-              className="w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-lg bg-black/60 backdrop-blur-sm border border-white/30 flex items-center justify-center shadow-lg"
+              className="w-9 h-9 sm:w-10 sm:h-10 md:w-11 md:h-11 rounded-lg bg-black/60 backdrop-blur-sm border border-white/30 flex items-center justify-center shadow-lg"
               whileHover={{ 
                 scale: 1.05,
                 borderColor: "rgba(0, 212, 255, 0.6)"
               }}
             >
-              <span className="text-base sm:text-lg md:text-xl font-bold font-heading text-white">
+              <span className="text-sm sm:text-base md:text-lg font-bold font-heading text-white">
                 {unit.value.toString().padStart(2, "0")}
               </span>
             </motion.div>
-            <span className="text-[8px] sm:text-[9px] md:text-[10px] text-white/80 mt-1 uppercase tracking-wider font-heading font-semibold">
+            <span className="text-[7px] sm:text-[8px] md:text-[9px] text-white/80 mt-0.5 uppercase tracking-wider font-heading font-semibold">
               {unit.label}
             </span>
           </motion.div>

@@ -64,14 +64,15 @@ export function TopNav({ onProfileClick }: TopNavProps) {
             {/* Desktop Sign In / Profile */}
             <div className="hidden md:block">
               {session ? (
-                <Button 
-                  variant="outline"
-                  onClick={onProfileClick}
-                  className="!px-6 md:!px-8 !py-2 md:!py-2.5 text-xs font-bold font-heading uppercase tracking-[0.2em] border-2 border-[#00d4ff] text-[#00d4ff] hover:bg-[#00d4ff]/10 shadow-[0_0_15px_rgba(0,212,255,0.5)] hover:shadow-[0_0_20px_rgba(0,212,255,0.7)] transition-all h-auto rounded-full flex items-center gap-2"
-                >
-                  <User className="w-4 h-4" />
-                  Profile
-                </Button>
+                <Link href="/profile">
+                  <Button 
+                    variant="outline"
+                    className="!px-6 md:!px-8 !py-2 md:!py-2.5 text-xs font-bold font-heading uppercase tracking-[0.2em] border-2 border-[#00d4ff] text-[#00d4ff] hover:bg-[#00d4ff]/10 shadow-[0_0_15px_rgba(0,212,255,0.5)] hover:shadow-[0_0_20px_rgba(0,212,255,0.7)] transition-all h-auto rounded-full flex items-center gap-2"
+                  >
+                    <User className="w-4 h-4" />
+                    Profile
+                  </Button>
+                </Link>
               ) : (
                 <Button
                   variant="outline"
@@ -128,17 +129,15 @@ export function TopNav({ onProfileClick }: TopNavProps) {
               </Link>
                 <div className="pt-2 border-t border-[#00d4ff]/30">
                   {session ? (
-                    <Button
-                      variant="outline"
-                      onClick={() => {
-                        setMobileMenuOpen(false);
-                        onProfileClick?.();
-                      }}
-                      className="w-full !px-6 !py-2.5 text-xs font-bold font-heading uppercase tracking-[0.2em] border-2 border-[#00d4ff] text-[#00d4ff] flex items-center justify-center gap-2"
-                    >
-                      <User className="w-4 h-4" />
-                      Profile
-                    </Button>
+                    <Link href="/profile" onClick={() => setMobileMenuOpen(false)}>
+                      <Button
+                        variant="outline"
+                        className="w-full !px-6 !py-2.5 text-xs font-bold font-heading uppercase tracking-[0.2em] border-2 border-[#00d4ff] text-[#00d4ff] flex items-center justify-center gap-2"
+                      >
+                        <User className="w-4 h-4" />
+                        Profile
+                      </Button>
+                    </Link>
                   ) : (
                     <Button
                       variant="outline"

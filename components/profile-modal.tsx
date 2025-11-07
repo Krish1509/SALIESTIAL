@@ -12,6 +12,7 @@ import toast from "react-hot-toast";
 interface ProfileModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onProfileUpdate?: () => void;
 }
 
 interface UserProfile {
@@ -26,7 +27,7 @@ interface UserProfile {
   registeredEvents?: string[];
 }
 
-export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
+export function ProfileModal({ isOpen, onClose, onProfileUpdate }: ProfileModalProps) {
   const { data: session } = useSession();
   const [isEditing, setIsEditing] = useState(false);
   const [profile, setProfile] = useState<UserProfile>({});
@@ -34,21 +35,50 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
 
   useEffect(() => {
     if (session?.user?.email) {
-      const savedProfile = localStorage.getItem(`profile_${session.user.email}`);
-      if (savedProfile) {
-        const parsed = JSON.parse(savedProfile);
-        setProfile(parsed);
-        setFormData(parsed);
-      }
+      fetchProfile();
     }
   }, [session]);
 
-  const handleSave = () => {
-    if (session?.user?.email) {
-      localStorage.setItem(`profile_${session.user.email}`, JSON.stringify(formData));
-      setProfile(formData);
-      setIsEditing(false);
-      toast.success("Profile updated successfully!");
+  const fetchProfile = async () => {
+    try {
+      const response = await fetch("/api/profile");
+      const data = await response.json();
+      
+      if (response.ok && data.profile) {
+        setProfile(data.profile);
+        setFormData(data.profile);
+      }
+    } catch (error) {
+      console.error("Error fetching profile:", error);
+    }
+  };
+
+  const handleSave = async () => {
+    try {
+      const response = await fetch("/api/profile", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setProfile(data.profile);
+        setIsEditing(false);
+        toast.success("Profile saved successfully!");
+        // Refresh profile data
+        await fetchProfile();
+        // Notify parent component
+        onProfileUpdate?.();
+      } else {
+        toast.error(data.error || "Failed to save profile");
+      }
+    } catch (error) {
+      console.error("Error saving profile:", error);
+      toast.error("Failed to save profile");
     }
   };
 
